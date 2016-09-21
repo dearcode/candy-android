@@ -1,2 +1,1 @@
-# candy-android
 candy android
