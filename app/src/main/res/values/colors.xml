@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colortab">#d4d2d3</color>
+    
+    <color name="list_item_divider">#e8e8e6</color>
+    <color name="color_light">#999897</color>
+    <color name="color_gray_qian">#dedee2</color>
+    <color name="white">#ffffff</color>
 </resources>
