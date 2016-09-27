@@ -89,7 +89,7 @@ public class GsonRequest<T> extends BaseRequst<T> {
         try {  
             jsonString = new String(response.data,
 			         HttpHeaderParser.parseCharset(response.headers));
-            LogUtil.d("GSON", "[" +  mParams.get("action") + " ]---返回的GSON数据是  " + jsonString);
+            LogUtil.debug("GSON", "[" +  mParams.get("action") + " ]---返回的GSON数据是  " + jsonString);
             return Response.success(mGson.fromJson(jsonString, mClass),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {

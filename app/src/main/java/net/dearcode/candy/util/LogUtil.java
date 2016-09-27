@@ -31,41 +31,49 @@ public final class LogUtil {
 	private static final String TAG_NAME = "XYS";
 	
 	public static final int DEBUG = 2;
+	public static final int INFO = 3;
 	
 	public static final int ERROR = 5;
 	
 	public static int level = DEBUG;
 	
-	public static void d(String tagName, String message) {
+	public static void debug(String tagName, String message) {
 		if (level <= DEBUG) {
 			if(message == null) return;
 			Log.d(tagName, message);
 		}
 	}
+
+	public static void info(String tagName, String message) {
+		if (level <= INFO) {
+			if(message == null) return;
+			Log.i(tagName, message);
+		}
+	}
 	
-	public static void e(String tagName, Exception e){
+	public static void error(String tagName, Exception e){
 		if (level <= ERROR) {
 			Log.e(tagName, e.getMessage(), e);
 		}
 	}
 	
-	public static void e(String message){
-		e(TAG_NAME, message);
+	public static void error(String message){
+		error(TAG_NAME, message);
 	}
 	
-	public static void e(String tagName, String message){
+	public static void error(String tagName, String message){
 		if(level <= ERROR){
 			if(message == null) return;
 			Log.e(tagName, message);
 		}
 	}
 	
-	public static void d(String message){
-		d(TAG_NAME, message);
+	public static void debug(String message){
+		debug(TAG_NAME, message);
 	}
 	
-	public static void e(Exception e){
-		e(TAG_NAME, e);
+	public static void error(Exception e){
+		error(TAG_NAME, e);
 	}
 	
 	/**
