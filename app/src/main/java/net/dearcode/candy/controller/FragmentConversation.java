@@ -31,6 +31,9 @@ public class FragmentConversation extends BaseFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataList.add(new ConversationListItem("Jobs", "", "nsdhfuhvgbh sjodfnvfj safdva", "8-6"));
+        dataList.add(new ConversationListItem("steven", "", "nsdhfuhvgbh sjodfnvfj safdva", "7-6"));
+        dataList.add(new ConversationListItem("Tim Jack", "", "nsdhfuhvgbh sjodfnvfj safdva", "9-6"));
     }
 
     @Nullable
@@ -38,6 +41,7 @@ public class FragmentConversation extends BaseFragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         root = (ViewGroup) inflater.inflate(R.layout.fragment_conversation,null);
+
         return root;
     }
 
@@ -53,9 +57,7 @@ public class FragmentConversation extends BaseFragment implements
         lvChatList.setOnItemClickListener(this);
         lvChatList.setOnItemLongClickListener(this);
 
-        dataList.add(new ConversationListItem("Jobs", "", "nsdhfuhvgbh sjodfnvfj safdva", "8-6"));
-        dataList.add(new ConversationListItem("steven", "", "nsdhfuhvgbh sjodfnvfj safdva", "7-6"));
-        dataList.add(new ConversationListItem("Tim Jack", "", "nsdhfuhvgbh sjodfnvfj safdva", "9-6"));
+
 
         if(adapter == null) {
             adapter = new ChatListAdapter(getActivity(), dataList);
