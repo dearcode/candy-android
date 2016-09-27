@@ -33,5 +33,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.google.code.gson:gson:2.4'
     compile(name: 'candy', ext: 'aar')
-    compile files('libs/pinyin4j-2.5.0.jar')
+
 }
