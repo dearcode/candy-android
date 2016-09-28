@@ -1,7 +1,5 @@
 package net.dearcode.candy.model;
 
-import net.dearcode.candy.util.PinyinUtils;
-
 /**
  * Created by lujinfeifly on 16/9/24.
  * 好友列表的单个数据
@@ -27,7 +25,6 @@ public class FriendListItem {
 
     public FriendListItem(String name, String img) {
         this.mName = name;
-        this.mPiny = PinyinUtils.getAlpha(name);
         this.mImg = img;
     }
 }

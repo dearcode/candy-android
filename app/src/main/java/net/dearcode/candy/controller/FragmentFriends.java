@@ -11,11 +11,8 @@ import android.widget.ListView;
 import net.dearcode.candy.R;
 import net.dearcode.candy.controller.base.BaseFragment;
 import net.dearcode.candy.model.FriendListItem;
-import net.dearcode.candy.selfview.MySideBar;
 import net.dearcode.candy.selfview.adapter.FriendListAdpter;
-import net.dearcode.candy.util.LogUtil;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +28,6 @@ public class FragmentFriends extends BaseFragment implements
     private ListView lvChatList = null;
     private FriendListAdpter adapter;
     private List<FriendListItem> dataList = new ArrayList<FriendListItem>();
-
-    private MySideBar mySideBarView;//侧边栏
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +55,6 @@ public class FragmentFriends extends BaseFragment implements
 
     private void initView() {
         lvChatList = (ListView) root.findViewById(R.id.lv_friends);
-        mySideBarView = (MySideBar) root.findViewById(R.id.mySideBarView);
         lvChatList.setOnItemClickListener(this);
         lvChatList.setOnItemLongClickListener(this);
 
@@ -71,16 +65,6 @@ public class FragmentFriends extends BaseFragment implements
         }
 
         lvChatList.setAdapter(adapter);
-
-
-        mySideBarView.setOnTouchingLetterChangedListener(new MySideBar.OnTouchingLetterChangedListener() {
-
-            @Override
-            public void onTouchingLetterChanged(String s) {
-                //该字母首次出现的位置
-
-            }
-        });
 
     }
 
@@ -120,6 +104,6 @@ public class FragmentFriends extends BaseFragment implements
                 new FriendListItem("张无忌", ""),
                 new FriendListItem("黄小贤", "")};
 
-        dataList = Arrays.asList(friendListArray);
+        //dataList = Arrays.asList(friendListArray);
     }
 }

@@ -19,12 +19,4 @@
         </net.dearcode.candy.selfview.MyListView>
 
     </ScrollView>
-
-    <net.dearcode.candy.selfview.MySideBar
-        android:id="@+id/mySideBarView"
-        android:layout_width="30dip"
-        android:layout_height="fill_parent"
-        android:layout_gravity="right" >
-    </net.dearcode.candy.selfview.MySideBar>
-
 </LinearLayout>
