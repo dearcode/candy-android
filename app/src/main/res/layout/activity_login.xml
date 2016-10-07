@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dip"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_account"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionDone"
+            android:maxLength="20"
+            android:hint="账号"
+            android:text="lujinfei@outlook.com"
+            android:inputType="text"/>
+
+        <EditText
+            android:id="@+id/et_passwd"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:focusableInTouchMode="true"
+            android:imeOptions="actionDone"
+            android:maxLength="20"
+            android:hint="密码"
+            android:text="123456"
+            android:password="true"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:text="登录"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dip"/>
+
+    </LinearLayout>
+
+</LinearLayout>

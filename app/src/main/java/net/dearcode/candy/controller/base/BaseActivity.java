@@ -1,17 +1,24 @@
 package net.dearcode.candy.controller.base;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 
 /**
  * 所有Activity的基类
  * @author lxq_x
  *
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity implements
+		View.OnClickListener, AdapterView.OnItemClickListener {
 	
 	private BaseController mBaseController;
+
+	protected String mActivityName = "基础类";
 	
 	public BaseActivity() {
 		super();
@@ -56,5 +63,15 @@ public class BaseActivity extends Activity {
 
 	public void onEventMainThread(Message message){
 		mBaseController.onEventMainThread(this, message);
+	}
+
+	@Override
+	public void onClick(View v) {
+
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
 	}
 }

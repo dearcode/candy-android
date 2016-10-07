@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">Candy</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_create_now">没有账号，点击注册</string>
+    <string name="prompt_email">账号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in_short">登录</string>
+
+
+    <string name="exit_btn_msg">退出</string>
+
+
+    <!-- Strings related to errors -->
+    <string name="err_ok">成功</string>
+    <string name="err_failure">未知错误</string>
+    <string name="err_username_format">用户名格式错误</string>
+    <string name="err_username_len">用户名长度不符合要求，限制:6-32位邮箱地址</string>
+    <string name="err_userpasswd_format">用户密码格式错误</string>
+    <string name="err_userpasswd_len">用户密码长度错误</string>
+    <string name="err_usernick_format">用户昵称格式错误</string>
+    <string name="err_usernick_len">用户昵称长度错误</string>
+    <string name="chat_send_message">发送</string>
+    <string name="err_getsession">获取会话失败</string>
+    <string name="err_masternewid">生成id失败</string>
+    <string name="err_register">注册失败</string>
+    <string name="err_offline">已经离线</string>
+    <string name="err_updateuserinfo">更新用户信息失败</string>
+    <string name="err_updateuserpasswd">更新用户密码失败</string>
+    <string name="err_getuserinfo">获取用户信息失败</string>
+    <string name="err_auth">用户认证失败, 用户名或密码错误</string>
+    <string name="err_subscribe">消息订阅失败</string>
+    <string name="err_unsubscribe">取消消息订阅失败</string>
+    <string name="err_newmessage">发送消息失败</string>
+    <string name="err_friendself">不能添加自己为好友</string>
+    <string name="err_addfriend">添加好友失败</string>
+    <string name="err_getonlinesession">用户不在线</string>
+    <string name="err_loadfriendlist">加载好友列表失败</string>
+    <string name="err_finduser">查找用户失败</string>
+    <string name="err_creategroup">创建分组失败</string>
+    <string name="err_loadgroup">加载群组列表失败</string>
+    <string name="err_uploadfile">上传文件失败</string>
+    <string name="err_checkfile">文件检查失败</string>
+    <string name="err_downloadfile">下载文件失败</string>
+    <string name="err_loadmessage">加载消息列表失败</string>
 </resources>

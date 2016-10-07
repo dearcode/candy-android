@@ -27,11 +27,11 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.2.1'
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.alibaba:fastjson:1.2.17'
+    compile 'com.android.support:support-v4:24.2.1'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.google.code.gson:gson:2.4'
-    compile(name: 'candy', ext: 'aar')
-
+    compile(name: 'client', ext: 'aar')
 }

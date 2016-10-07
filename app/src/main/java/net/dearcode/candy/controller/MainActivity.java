@@ -1,5 +1,7 @@
 package net.dearcode.candy.controller;
 
+import android.content.Intent;
+import android.os.RemoteException;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
+import net.dearcode.candy.CandyMessage;
 import net.dearcode.candy.R;
 import net.dearcode.candy.controller.base.BaseFragmentActivity;
 
@@ -33,11 +36,12 @@ public class MainActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
+        if(!CustomeApplication.getInstance().isLogin()) {
+            exit();
+        }
+
         setContentView(R.layout.activity_main);
-
-        //getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-
         initView();
     }
 
@@ -66,5 +70,17 @@ public class MainActivity extends BaseFragmentActivity {
         imageView.setImageResource(mImageViewArray[index]);
 
         return view;
+    }
+
+    public void exit() {
+        // 清空登录
+        CustomeApplication.getInstance().getLocalPreferences().save("login", "");
+        CustomeApplication.getInstance().setLogin(true);
+        // 跳转
+        Intent intent=new Intent(this,LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        return;
     }
 }
