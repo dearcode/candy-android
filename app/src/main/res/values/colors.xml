@@ -9,4 +9,11 @@
     <color name="color_light">#999897</color>
     <color name="color_gray_qian">#dedee2</color>
     <color name="white">#ffffff</color>
+
+    <color name="etText">#999997</color>
+    <color name="new_color_deep">#383736</color>
+    <color name="new_color_light">#999897</color>
+    <color name="title_bg">#fbfaf9</color>
+    <color name="new_color_orange">#ff6c00</color>
+    <color name="accList">#383736</color>
 </resources>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:id="@+id/ll_chat" >
+
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0">
+
+        <com.changyou.zzb.selfview.PullToRefreshListView
+            android:id="@+id/lv_chat"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:cacheColorHint="@null"
+            android:divider="@null"
+            android:transcriptMode="normal"
+            android:listSelector="@android:color/transparent"/>
+
+        <!-- 未读消息数量 -->
+        <TextView android:id="@+id/tv_unRead"
+            android:layout_width="22dip"
+            android:layout_height="26dip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dip"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/chat_unread_count_tip"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:gravity="center|top"
+            android:paddingTop="4dip"
+            android:visibility="gone"/>
+
+        <!-- 未加载出列表时转圈 -->
+        <ProgressBar android:id="@+id/pb_loading"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_centerInParent="true"/>
+
+        <!-- 说话时的标志 -->
+        <include layout="@layout/layout_chat_voice_pop"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
+            android:layout_centerInParent="true"
+            android:id="@+id/voice_pop"
+            android:visibility="gone"/>
+
+        <!-- 断开连接标志 -->
+        <TextView android:id="@+id/tv_chat_noConn"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:background="#c0000000"
+            android:gravity="center"
+            android:text="与服务器断开连接"
+            android:textColor="@color/new_color_orange"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#cfcecd" />
+    <LinearLayout
+        android:id="@+id/ll_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="9dip"
+        android:paddingBottom="9dip"
+        android:background="@color/title_bg"
+        android:orientation="horizontal" >
+
+        <!-- 语音还是打字 -->
+        <ImageView android:id="@+id/iv_which"
+            android:layout_width="40dip"
+            android:layout_height="31dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/chat_add_voice"
+            android:contentDescription="@string/app_name"/>
+
+        <!-- 语音按住说话 -->
+        <TextView
+            android:id="@+id/tv_pressSpeak"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="10dip"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="按住 说话"
+            android:textColor="@color/new_color_light"
+            android:background="@drawable/button_voice"
+            android:visibility="gone"/>
+
+        <!-- 打字输入框 -->
+        <EditText
+            android:id="@+id/et_reply"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dip"
+            android:paddingBottom="6dip"
+            android:layout_marginLeft="10dip"
+            android:paddingRight="8dip"
+            android:scrollbars="vertical"
+            android:layout_gravity="center_vertical"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:maxLines="4"
+            android:background="@drawable/bg_edittext_normal_border_1"
+            style="@style/common_editview"
+            android:maxLength="255"/>
+
+        <!-- 添加表情 -->
+        <ImageView android:id="@+id/iv_face"
+            android:layout_width="31dip"
+            android:layout_height="31dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:src="@drawable/chat_add_face"
+            android:contentDescription="@string/app_name"/>
+
+        <!-- 添加图片 -->
+        <ImageView android:id="@+id/iv_img"
+            android:layout_width="31dip"
+            android:layout_height="31dip"
+            android:layout_marginLeft="14dip"
+            android:layout_marginRight="15dip"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/chat_add_img"
+            android:contentDescription="@string/app_name"/>
+
+        <!-- 发送按钮 -->
+        <Button android:id="@+id/send"
+            android:layout_width="40dip"
+            android:layout_height="31dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/button_selector_orange"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <!-- 表情 -->
+    <include layout="@layout/layout_chat_etc_face2"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+
+    <!-- 添加图片 -->
+    <include layout="@layout/layout_chat_etc_img"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"/>
+
+</LinearLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="102dip"
+    android:orientation="horizontal"
+    android:background="@drawable/chat_reply_bg2"
+    android:id="@+id/ll_addImage"
+    android:gravity="center_vertical"
+    android:visibility="gone">
+    
+    <!-- 添加图片 -->
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_marginLeft="10dip">
+
+        
+        <ImageView android:id="@+id/iv_addCamera"
+	         android:contentDescription="@string/app_name"
+	         android:layout_height="45dip"
+	         android:layout_width="45dip"
+	         android:layout_centerHorizontal="true"
+	         android:scaleType="fitCenter"/>
+        
+        <TextView 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/iv_addCamera"
+            android:layout_marginTop="5dip"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/new_color_light"
+            android:text="拍照"
+            android:textSize="12sp"/>
+         
+    </RelativeLayout>
+    
+    
+    <!-- 添加相机 -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dip">
+        
+        <ImageView android:id="@+id/iv_addImg"
+	         android:contentDescription="@string/app_name"
+	         android:layout_height="45dip"
+	         android:layout_width="45dip"
+	         android:layout_centerHorizontal="true"
+	         android:scaleType="fitCenter"/>
+        
+        <TextView 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/iv_addImg"
+            android:layout_marginTop="5dip"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/new_color_light"
+            android:text="照片"
+            android:textSize="12sp"/>
+         
+    </RelativeLayout>
+    
+        
+</LinearLayout>

@@ -15,4 +15,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="common_editview">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">45.0dip</item>
+        <item name="android:paddingLeft">10dip</item>
+        <item name="android:textColorHint">@color/etText</item>
+        <item name="android:textColor">@color/new_color_deep</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:background">@null</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>
