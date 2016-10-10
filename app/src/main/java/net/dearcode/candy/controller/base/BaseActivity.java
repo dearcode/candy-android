@@ -1,11 +1,13 @@
 package net.dearcode.candy.controller.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 /**
@@ -73,5 +75,12 @@ public class BaseActivity extends AppCompatActivity implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+	}
+
+	public void hideKeyboardFocus() {
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		if(getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null){
+			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 }

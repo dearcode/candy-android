@@ -33,6 +33,10 @@
             android:name=".controller.ChatActivity"
             android:theme="@style/AppTheme2" >
         </activity>
+        <activity
+            android:name=".controller.HumanActivity"
+            android:theme="@style/AppTheme2" >
+        </activity>
 
         <service android:name=".controller.service.MessageService" >
         </service>

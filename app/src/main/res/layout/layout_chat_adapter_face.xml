@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:gravity="center_horizontal"
+  android:background="@drawable/list_item_selector_face">
+  <ImageView
+	android:layout_width="25dip"
+	android:layout_height="25dip"
+	android:layout_margin="10dip"
+	android:contentDescription=".."
+	android:scaleType="fitCenter"
+	android:background="@null"
+	android:id="@+id/image" />
+</LinearLayout>

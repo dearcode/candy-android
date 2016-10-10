@@ -16,4 +16,8 @@
     <color name="title_bg">#fbfaf9</color>
     <color name="new_color_orange">#ff6c00</color>
     <color name="accList">#383736</color>
+    <color name="info_content">#999897</color>
+    <color name="new_color_gray">#777675</color>
+    <color name="red">#ff3030</color>
+    <color name="graytext">#767777</color>
 </resources>

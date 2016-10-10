@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:layout_weight="1.0">
 
-        <com.changyou.zzb.selfview.PullToRefreshListView
+        <net.dearcode.candy.selfview.PullToRefreshListView
             android:id="@+id/lv_chat"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
