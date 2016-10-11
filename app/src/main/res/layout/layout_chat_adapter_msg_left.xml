@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- 发送时间 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_sendtime"
+            android:layout_width="wrap_content"
+            android:layout_height="20dip"
+            android:layout_marginBottom="10dip"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:textColor="@color/chat_send_time" />
+    </LinearLayout>
+
+    <RelativeLayout android:id="@+id/rl_chatEtc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="60dip"
+        android:layout_marginBottom="20dip" >
+        <!-- 头像 -->
+        <ImageView
+            android:id="@+id/iv_userhead"
+            android:layout_width="46dip"
+            android:layout_height="46dip"
+            android:focusable="false" 
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/app_name" />
+        <!-- 游戏图标 -->
+        <ImageView
+            android:id="@+id/iv_gameIcon"
+            android:layout_width="@dimen/dip_22"
+            android:layout_height="@dimen/dip_22"
+            android:layout_marginTop="35dip"
+            android:layout_marginLeft="12dip"
+            android:contentDescription="@string/app_name"
+            android:visibility="gone" />
+        
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_userhead"
+            android:layout_marginLeft="16dip"
+            android:paddingBottom="2dip"
+            android:includeFontPadding="false"
+            android:textColor="@color/chat_nickname"
+            android:textSize="9sp"
+            android:visibility="gone" />
+        <!-- 消息聊天内容 -->
+        <net.dearcode.candy.selfview.ChatContentView
+	        android:id="@+id/v_chat_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_username"
+			android:layout_toRightOf="@id/iv_userhead"
+			android:layout_marginLeft="10dip"
+			android:layout_marginRight="25dip" />
+        
+    </RelativeLayout>
+
+</LinearLayout>

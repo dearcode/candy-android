@@ -9,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Toast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 所有Activity的基类
@@ -17,11 +21,11 @@ import android.widget.AdapterView;
  */
 public class BaseActivity extends AppCompatActivity implements
 		View.OnClickListener, AdapterView.OnItemClickListener {
-	
+
 	private BaseController mBaseController;
 
 	protected String mActivityName = "基础类";
-	
+
 	public BaseActivity() {
 		super();
 		mBaseController = new BaseController();
@@ -32,31 +36,31 @@ public class BaseActivity extends AppCompatActivity implements
 		super.onCreate(savedInstanceState);
 		mBaseController.onCreate(this);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		mBaseController.onDestroy(this);
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 		mBaseController.mIsTop = true;
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
 		mBaseController.mIsTop = false;
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		mBaseController.onResume(this);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -83,4 +87,21 @@ public class BaseActivity extends AppCompatActivity implements
 			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 		}
 	}
+
+	public void softKeyboard(int nTime){
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+			}
+		}, nTime);
+	}
+
+	public void toastDisplay(String abc) {
+		Toast.makeText(getApplicationContext(), abc, Toast.LENGTH_SHORT).show();
+	}
+
 }

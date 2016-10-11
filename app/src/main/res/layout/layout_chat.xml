@@ -137,7 +137,7 @@
             android:contentDescription="@string/app_name"/>
 
         <!-- 发送按钮 -->
-        <Button android:id="@+id/send"
+        <Button android:id="@+id/btn_send"
             android:layout_width="40dip"
             android:layout_height="31dip"
             android:layout_marginLeft="10dip"

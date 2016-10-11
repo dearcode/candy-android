@@ -20,4 +20,6 @@
     <color name="new_color_gray">#777675</color>
     <color name="red">#ff3030</color>
     <color name="graytext">#767777</color>
+    <color name="chat_send_time">#aeafaf</color>
+    <color name="chat_nickname">#aaaaaa</color>
 </resources>

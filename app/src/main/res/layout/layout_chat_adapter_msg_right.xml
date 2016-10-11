@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+	
+    <!-- 发送时间 -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/tv_sendtime"
+            android:layout_width="wrap_content"
+            android:layout_height="20dip"
+            android:layout_marginBottom="10dip"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:textColor="@color/chat_send_time" />
+    </LinearLayout>
+	
+    <RelativeLayout android:id="@+id/rl_chatEtc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dip"
+        android:layout_marginBottom="20dip">
+	        
+	    <!-- 头像靠右 -->  
+        <ImageView 
+           android:id="@+id/iv_userhead" 
+           android:layout_width="46dip"
+	       android:layout_height="46dip"
+           android:focusable="false" 
+           android:layout_alignParentRight="true" 
+           android:layout_alignParentTop="true" 
+           android:contentDescription="@string/app_name"/>
+        
+        <!-- 游戏图标 -->
+        <ImageView
+            android:id="@+id/iv_gameIcon"
+            android:layout_width="@dimen/dip_22"
+            android:layout_height="@dimen/dip_22"
+            android:layout_alignParentRight="true" 
+            android:layout_alignParentTop="true" 
+            android:layout_marginTop="35dip"
+            android:layout_marginRight="12dip"
+            android:contentDescription="@string/app_name"
+            android:visibility="gone" />
+        
+        <!-- 用户名 -->
+       <TextView 
+           android:id="@+id/tv_username" 
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_toLeftOf="@id/iv_userhead"
+           android:layout_marginRight="16dip"
+           android:paddingBottom="2dip"
+           android:textColor="@color/chat_nickname"
+           android:textSize="9sp"
+           android:visibility="gone"/>
+        
+      <LinearLayout android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_toLeftOf="@id/iv_userhead"
+            android:layout_below="@+id/tv_username"
+            android:layout_marginRight="10dip"
+            android:layout_marginLeft="60dip"
+            android:orientation="horizontal">
+           
+           <!-- 发送时消息转圈 -->
+	       <ProgressBar android:id="@+id/pb_sending"
+	           android:layout_width="18dip"
+	           android:layout_height="18dip"
+	           android:layout_marginRight="5dip"
+	           android:layout_gravity="center_vertical"
+	           android:visibility="gone"/>
+	       <!-- 发送时消息失败 -->
+	       <ImageView android:id="@+id/iv_failed"
+	           android:layout_width="20dip"
+	           android:layout_height="20dip"
+	           android:layout_marginRight="5dip"
+	           android:layout_gravity="center_vertical"
+	           android:contentDescription="@string/app_name"
+	           android:visibility="gone"/>
+	       
+	       <!-- 消息聊天内容 -->
+	       <net.dearcode.candy.selfview.ChatContentView
+	        	android:id="@+id/v_chat_content"
+	        	android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="10dip" />
+	       
+       </LinearLayout>
+     </RelativeLayout>
+</LinearLayout>

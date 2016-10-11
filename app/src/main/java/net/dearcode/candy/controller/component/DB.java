@@ -171,6 +171,16 @@ public class DB {
         return msgs;
     }
 
+    public int getUserMessageCount(long id) {
+        int ret = 0;
+        Cursor c = db.rawQuery("SELECT count(1) FROM user_message where user = ? ", null);
+        if (c.moveToNext()) {
+            ret  = c.getInt(0);
+        }
+        c.close();
+        return ret;
+    }
+
     public void saveUserMessage(long id, long user, long from, String msg) {
         db.execSQL("insert into user_message(id, user, `from`, msg) values (?, ?, ?,?)", new Object[]{id, user, from, msg});
     }
