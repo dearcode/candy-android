@@ -27,6 +27,7 @@ import net.dearcode.candy.model.Relation;
 import net.dearcode.candy.model.ServiceResponse;
 import net.dearcode.candy.selfview.PullToRefreshListView;
 import net.dearcode.candy.selfview.adapter.ChatFaceAdapter;
+import net.dearcode.candy.selfview.adapter.ChatMsgAdapter;
 import net.dearcode.candy.util.BitMapCacheUtil;
 import net.dearcode.candy.util.Common;
 import net.dearcode.candy.util.FaceUtil;
@@ -34,6 +35,7 @@ import net.dearcode.candy.util.PageManager;
 import net.dearcode.candy.util.ThreadPool;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -53,39 +55,49 @@ public class ChatActivity extends BaseActivity {
     protected ImageView ivFace;
     protected View ivFaceDelete;
     private PageManager pm;
+    private ChatMsgAdapter adapter;
     //未加载列表时转圈
     protected ProgressBar pvLoading;
 
     private MyHandler handler;
 
+    private String retext = "";
+    private List<Message> dataList;
     private long mUid;
     private long mGid;
     private boolean mIsGroup = false;
     private boolean isBottom = true;
     private int unReadNum = 0;
+    private int lvPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle b = getIntent().getExtras();
-        mIsGroup = b.getBoolean("isGroup");
-        if(!mIsGroup) {
-            mUid = b.getLong("uid");
-        }else {
-            mGid = b.getLong("gid");
-        }
+//        Bundle b = getIntent().getExtras();
+//        mIsGroup = b.getBoolean("isGroup");
+//        if(!mIsGroup) {
+//            mUid = b.getLong("uid");
+//        }else {
+//            mGid = b.getLong("gid");
+//        }
+
+        mIsGroup = false;
+        mUid = 1;
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         setContentView(R.layout.layout_chat);
 
 
         initView();
+        initData(true);
     }
 
     private void initView() {
 
         pm = new PageManager();
+        handler = new MyHandler(this);
+        dataList =  new ArrayList<Message>();
 
         pvLoading = (ProgressBar)findViewById(R.id.pb_loading);
 
@@ -170,6 +182,9 @@ public class ChatActivity extends BaseActivity {
     private void initData(final boolean isFirst) {
         // 获取输入框内容
         String retext = etReply.getText().toString();
+        if(retext == null) {
+            retext = "111";
+        }
 
         ThreadPool.getShortPool().execute(new Runnable() {
             @Override
@@ -241,6 +256,10 @@ public class ChatActivity extends BaseActivity {
                         return;
                     }
 
+                    for (Message bean : tmpList) {
+                        dataList.add(0, bean);
+                    }
+
 //                    //清空红点
 //                    if(isFirst) {
 //                        chatListDao.setUnread(jid, jidFrom, cyApp.getCyjUserBean().getCyjId(), 0);
@@ -307,25 +326,6 @@ public class ChatActivity extends BaseActivity {
                         return CustomeApplication.getService().sendMessage(mGid, mUid, msg);
                     }
                 }.Call();
-//                if (sr.hasError()) {
-//                    Log.e(Common.LOG_TAG, "sendMessage error:" + sr.getError());
-//                    Toast.makeText(ChatActivity.this, sr.getError(), Toast.LENGTH_LONG).show();
-//                    return;
-//                }
-//
-//                if (mIsGroup) {
-//                    CustomeApplication.db.saveGroupMessage(sr.getId(), group, Base.account.getID(), 0, msg);
-//                    CustomeApplication.db.saveSession(group, true, msg);
-//
-//                } else {
-//                    CustomeApplication.db.saveUserMessage(sr.getId(), user, Base.account.getID(), msg);
-//                    CustomeApplication.db.saveSession(user, false, msg);
-//                }
-//                Log.e(Common.LOG_TAG, "new Message id:" + sr.getId() + " group:" + group + " user:" + user + " msg:" + msg);
-//                etReply.setText("");
-//                msgs.add(new Message(Event.None, Relation.DEL, sr.getId(), group, Base.account.getID(), user, msg));
-//                rvTalk.getAdapter().notifyDataSetChanged();
-//                rvTalk.smoothScrollToPosition(msgs.size() - 1);
                 break;
             case R.id.iv_face:
                 showFace();
@@ -457,14 +457,14 @@ public class ChatActivity extends BaseActivity {
                 boolean isFirst = (Boolean)msg.obj;
                 //是首次来，滚动到最后，否则滚动到指定位置
                 if (isFirst) {
-                    adapter = new XmppChatAdapter(this, dataList, "chat", chat, mSensor, jidFrom, "", handler);
+                    adapter = new ChatMsgAdapter(this, dataList, "chat", ""+ mUid, "", handler);
                     lvChat.setAdapter(adapter);
                     lvChat.setSelection(lvChat.getCount() - 1);
                 } else {
                     adapter.notifyDataSetChanged();
                     lvChat.setSelection(lvPosition);
                 }
-                if(StringUtil.isEmpty(etReply.getText().toString())){
+                if("".equals(etReply.getText().toString())){
                     etReply.setText(retext);
                     etReply.setSelection(retext.length());
                 }
@@ -473,7 +473,7 @@ public class ChatActivity extends BaseActivity {
                 break;
 
             case 2:
-                if(StringUtil.isEmpty(etReply.getText().toString())){
+                if("".equals(etReply.getText().toString())){
                     etReply.setText(retext);
                     etReply.setSelection(retext.length());
                 }
@@ -481,7 +481,7 @@ public class ChatActivity extends BaseActivity {
                 break;
 
             case 3:
-                if(StringUtil.isEmpty(etReply.getText().toString())){
+                if("".equals(etReply.getText().toString())){
                     etReply.setText(retext);
                     etReply.setSelection(retext.length());
                 }
@@ -490,33 +490,6 @@ public class ChatActivity extends BaseActivity {
                 break;
             case 4:
                 toastDisplay("操作失败，请重试");
-                break;
-            case 5:
-                setResult(2);
-                toastDisplay(toMsg);
-                finish();
-                break;
-            case ConstantValue.MSGIDTOAST:
-                String toast = (String) msg.obj;
-                if(StringUtil.isNotEmpty(toast)){
-                    toastDisplay(toast);
-                }
-                break;
-            case ConstantValue.ADDFRIEND:
-                if ("ok".equals(msg.obj)) {
-                    rlFriendNote.setVisibility(View.GONE);
-                    toastDisplay("好友添加成功！");
-                }
-                break;
-            case ConstantValue.FORBIDDENMESSAGE:
-                setForbiddenAndDis();
-                setFriendNote();
-                toastDisplay(getResources().getString(R.string.chat_manage_forbidden));
-                break;
-            case 9:
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
                 break;
 
             default:

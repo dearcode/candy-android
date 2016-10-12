@@ -92,6 +92,11 @@ public class DB {
 
         // 会话从这加载
         db.execSQL("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY, is_group integer, last_time integer, msg text)");
+
+//        db.execSQL("insert into user_message(id, user, `from`, msg) values (22222, 1, 1,'22222')");
+//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33333, 1, 1,'33333')");
+//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33334, 2, 1,'3334444443')");
+//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33335, 2, 1,'33555555555555555533')");
     }
 
     public ArrayList<Session> loadSession() {

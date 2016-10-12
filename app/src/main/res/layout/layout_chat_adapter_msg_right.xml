@@ -28,13 +28,14 @@
 	        
 	    <!-- 头像靠右 -->  
         <ImageView 
-           android:id="@+id/iv_userhead" 
-           android:layout_width="46dip"
-	       android:layout_height="46dip"
-           android:focusable="false" 
-           android:layout_alignParentRight="true" 
-           android:layout_alignParentTop="true" 
-           android:contentDescription="@string/app_name"/>
+            android:id="@+id/iv_userhead"
+            android:layout_width="46dip"
+	        android:layout_height="46dip"
+            android:focusable="false"
+			android:src="@mipmap/ic_launcher"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/app_name"/>
         
         <!-- 游戏图标 -->
         <ImageView
