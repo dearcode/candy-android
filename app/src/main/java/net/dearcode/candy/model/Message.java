@@ -5,6 +5,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 
+import net.dearcode.candy.modelview.MessageBean;
+import net.dearcode.candy.modelview.UserBean;
+
 /**
  *  * Created by c-wind on 2016/9/30 10:59
  *  * mail：root@codecn.org
@@ -147,5 +150,23 @@ public class Message implements Parcelable {
 
     public void setRelation(int r) {
         this.relation = Relation.values()[r];
+    }
+
+    /**
+     * 转换成界面需要使用的类
+     * @return
+     */
+    public MessageBean getMessageBean() {
+        MessageBean bean = new MessageBean();
+        bean.setTime(id);
+        bean.setChatid("");
+        bean.setContent(msg);
+        bean.setId(id);
+        bean.setIsread(false);
+        bean.setType(1);
+        UserBean user = new UserBean();
+        user.setUserId(from);
+        bean.setUser(user);
+        return bean;
     }
 }

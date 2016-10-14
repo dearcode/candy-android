@@ -9,7 +9,10 @@ import com.forlong401.log.transaction.log.manager.LogManager;
 import net.dearcode.candy.CandyMessage;
 import net.dearcode.candy.controller.component.DB;
 import net.dearcode.candy.controller.component.ServiceBinder;
+import net.dearcode.candy.controller.component.UserInfo;
 import net.dearcode.candy.localdb.localpreferences.LocalPreferences;
+import net.dearcode.candy.model.ServiceResponse;
+import net.dearcode.candy.model.User;
 
 /**
  * Created by 水寒 on 2016/9/17.
@@ -23,13 +26,15 @@ public class CustomeApplication extends Application {
     private static ServiceBinder binder;
     public static DB db;
 
+    private User mMyself = new User();
+
     private boolean isLogin = false;
 
     public boolean isLogin() {
         return isLogin;
     }
 
-    public CustomeApplication(){
+    public CustomeApplication() {
         mInstance = this;
     }
 
@@ -55,8 +60,29 @@ public class CustomeApplication extends Application {
         if(login == null || "".equals(login)) {
             isLogin = false;
         } else {
+            String[] split = login.split("\\#\\@\\#");
+            int i = split.length;
+            mMyself.setName(split[0]);
+            mMyself.setPassword(split[1]);
+            mMyself.setID(Long.parseLong(split[2]));
             isLogin = true;
+
+            try {
+                CustomeApplication.getService().connect();
+                ServiceResponse sr = CustomeApplication.getService().login(mMyself.getName(), mMyself.getPassword());
+                if (sr.hasError()) {
+                    //Snackbar.make(view, Errors.ParseError(getApplicationContext(),sr.getError()), Snackbar.LENGTH_LONG).show();
+                    Log.i("@@@@@@@@@", sr.getError());
+                    return;
+                }
+            }catch(Exception e) {
+
+            }
         }
+    }
+
+    public User getMyself() {
+        return mMyself;
     }
 
     public static CandyMessage getService() {

@@ -4,25 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.dearcode.candy.R;
-import net.dearcode.candy.model.Message;
+import net.dearcode.candy.modelview.MessageBean;
 import net.dearcode.candy.selfview.adapter.ChatMsgAdapter;
 import net.dearcode.candy.util.FaceUtil;
 import net.dearcode.candy.util.SoundMeter;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ChatContentView extends LinearLayout {
 
@@ -31,13 +27,14 @@ public class ChatContentView extends LinearLayout {
 	private int position;
 	private SoundMeter voiceUtil;
 	private Handler handler;
-	private List<Message> dataList;
+	private List<MessageBean> dataList;
 	private ChatMsgAdapter adapter;
-	private Message bean;
+	private MessageBean bean;
 	private String jidFrom;
 	private ViewGroup vgParent;
 	private String roomManager;//群主和群管的ID之和
 	private String ownerId;//群主ID
+	private boolean isOther; // 是否是别人说的
 
 	public ChatContentView(Context context) {
 		super(context);
@@ -55,8 +52,8 @@ public class ChatContentView extends LinearLayout {
 	}
 
 	public void setProperties(Activity activity, SoundMeter voiceUtil,
-							  Handler handler, List<Message> dataList, ChatMsgAdapter adapter,
-							  String jidFrom, ViewGroup vgParent, String roomManager, String ownerId) {
+							  Handler handler, List<MessageBean> dataList, ChatMsgAdapter adapter,
+							  String jidFrom, ViewGroup vgParent, String roomManager, String ownerId, boolean isOther) {
 		this.activity = activity;
 		this.voiceUtil = voiceUtil;
 		this.handler = handler;
@@ -101,7 +98,7 @@ public class ChatContentView extends LinearLayout {
 
 	private void setText() {
 		TextView tvText = new TextView(activity);
-		FaceUtil.replaceTextToFace(activity, bean.getMsg(), tvText, false);
+		FaceUtil.replaceTextToFace(activity, bean.getContent(), tvText, false);
 		tvText.setLineSpacing(15, 1.1f);
 		tvText.setGravity(Gravity.CENTER | Gravity.LEFT);
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
@@ -109,7 +106,7 @@ public class ChatContentView extends LinearLayout {
 		map.put(2, "复制");
 
 
-		if(true){
+		if(isOther){
 			tvText.setTextColor(getResources().getColor(R.color.new_color_deep));
 			tvText.setBackgroundResource(R.drawable.chat_from_bg);
 		}else{

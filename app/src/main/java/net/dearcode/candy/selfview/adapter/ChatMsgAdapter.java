@@ -21,6 +21,7 @@ import android.widget.TextView;
 import net.dearcode.candy.R;
 import net.dearcode.candy.controller.base.BaseActivity;
 import net.dearcode.candy.model.Message;
+import net.dearcode.candy.modelview.MessageBean;
 import net.dearcode.candy.selfview.ChatContentView;
 import net.dearcode.candy.util.SoundMeter;
 
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class ChatMsgAdapter extends BaseAdapter {
 
-	private List<Message> dataList;
+	private List<MessageBean> dataList;
 	private BaseActivity context;
 	private SoundMeter voiceUtil;
 	//群聊还是单聊
@@ -44,7 +45,7 @@ public class ChatMsgAdapter extends BaseAdapter {
 	private String roomManager;//群主和群管ID
 	private String ownerId;//群主ID
 
-	public ChatMsgAdapter(BaseActivity ctx, List<Message> d, String which,
+	public ChatMsgAdapter(BaseActivity ctx, List<MessageBean> d, String which,
 						  /*Chat chat SoundMeter voiceUtil,,*/ String jidFrom, String roomId, Handler handler) {
 		context = ctx;
 		dataList = d;
@@ -76,19 +77,19 @@ public class ChatMsgAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		final Message bean = dataList.get(position);
+		final MessageBean bean = dataList.get(position);
 //		XmppUserBean userBean = bean.getUserBean();
 //		if(userBean == null){
 //			userBean = new XmppUserBean();
 //		}
 
 		//根据from区分左边还是右边 true 左边  false 右边
-		boolean beFrom = (bean.getFrom() == 1);
+		boolean isOther = (bean.getUser().getUserId() == 1);
 
 		ViewHolder viewHolder = null;
 		if (convertView == null ) {
 			viewHolder = new ViewHolder();
-			if (beFrom) {
+			if (isOther) {
 				convertView = LayoutInflater.from(context).inflate(R.layout.layout_chat_adapter_msg_left, null);
 			} else {
 				convertView = LayoutInflater.from(context).inflate(R.layout.layout_chat_adapter_msg_right, null);
@@ -101,10 +102,10 @@ public class ChatMsgAdapter extends BaseAdapter {
 			viewHolder.ivUserHeader = (ImageView)convertView.findViewById(R.id.iv_userhead);
 			viewHolder.ivGameIcon = (ImageView)convertView.findViewById(R.id.iv_gameIcon);
 			viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
-			viewHolder.isFrom = beFrom;
+			viewHolder.isOther = isOther;
 			viewHolder.vContent = (ChatContentView)convertView.findViewById(R.id.v_chat_content);
 			viewHolder.vContent.setProperties(context, voiceUtil, handler, dataList, this,
-					jidFrom, parent, roomManager, ownerId);
+					jidFrom, parent, roomManager, ownerId, isOther);
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -162,11 +163,11 @@ public class ChatMsgAdapter extends BaseAdapter {
 		}
 
 		//消息发送状态
-		if (!beFrom) {
+//		if (!beFrom) {
 //			viewHolder.ivFailed.setOnClickListener(new ResendOnclickListener(bean));
-			viewHolder.pbSending.setVisibility(View.GONE);
-			viewHolder.ivFailed.setVisibility(View.GONE);
-		}
+//			viewHolder.pbSending.setVisibility(View.GONE);
+//			viewHolder.ivFailed.setVisibility(View.GONE);
+//		}
 
 		return convertView;
 	}
@@ -182,8 +183,8 @@ public class ChatMsgAdapter extends BaseAdapter {
 			return true;
 		}
 		//如果距离上一条消息3分钟，显示
-		Message now = dataList.get(position);
-		Message pre = dataList.get(position-1);
+		MessageBean now = dataList.get(position);
+		MessageBean pre = dataList.get(position-1);
 //		if ((now.getDate()/1000) - (pre.getMessageDate()/1000) > (5 * 60)) {
 //			return true;
 //		}
@@ -200,7 +201,7 @@ public class ChatMsgAdapter extends BaseAdapter {
 		public ImageView ivFailed;
 		public ChatContentView vContent;
 
-		public boolean isFrom = true;
+		public boolean isOther = true;
 	}
 
 	//群主ID

@@ -25,6 +25,7 @@ import net.dearcode.candy.model.Event;
 import net.dearcode.candy.model.Message;
 import net.dearcode.candy.model.Relation;
 import net.dearcode.candy.model.ServiceResponse;
+import net.dearcode.candy.modelview.MessageBean;
 import net.dearcode.candy.selfview.PullToRefreshListView;
 import net.dearcode.candy.selfview.adapter.ChatFaceAdapter;
 import net.dearcode.candy.selfview.adapter.ChatMsgAdapter;
@@ -38,6 +39,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by lujinfei on 2016/10/8.
@@ -62,7 +65,7 @@ public class ChatActivity extends BaseActivity {
     private MyHandler handler;
 
     private String retext = "";
-    private List<Message> dataList;
+    private List<MessageBean> dataList;
     private long mUid;
     private long mGid;
     private boolean mIsGroup = false;
@@ -97,7 +100,7 @@ public class ChatActivity extends BaseActivity {
 
         pm = new PageManager();
         handler = new MyHandler(this);
-        dataList =  new ArrayList<Message>();
+        dataList =  new ArrayList<MessageBean>();
 
         pvLoading = (ProgressBar)findViewById(R.id.pb_loading);
 
@@ -257,7 +260,7 @@ public class ChatActivity extends BaseActivity {
                     }
 
                     for (Message bean : tmpList) {
-                        dataList.add(0, bean);
+                        dataList.add(bean.getMessageBean());
                     }
 
 //                    //清空红点
@@ -319,20 +322,68 @@ public class ChatActivity extends BaseActivity {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btn_send: // 普通发送按钮
-                final String msg = Common.GetString(etReply.getText());
-                ServiceResponse sr = new RPC() {
-                    @Override
-                    public ServiceResponse getResponse() throws Exception {
-                        return CustomeApplication.getService().sendMessage(mGid, mUid, msg);
-                    }
-                }.Call();
+
+                sendText();
                 break;
+
+
             case R.id.iv_face:
                 showFace();
                 break;
             default:
                 super.onClick(v);
         }
+    }
+
+    /**
+     * 发送文本信息逻辑
+     */
+    private void sendText() {
+        String msg = Common.GetString(etReply.getText());
+        if (msg == null || "".equals(msg.trim())) {
+            toastDisplay("消息不能为空");
+            return;
+        }
+
+        if (msg.length() > 2048) {
+            toastDisplay("您输入的消息过长，请限制在2000个字以内");
+            return;
+        }
+
+        //过滤VIP表情
+        Pattern p = Pattern.compile("#+v");
+        Matcher m = p.matcher(msg);
+        msg = m.replaceAll("v");
+
+        // create bean
+        Message bean = new Message();
+        bean.setMsg(msg);
+        bean.setFrom(CustomeApplication.getInstance().getMyself().getID());
+        bean.setId(new Date().getTime());
+
+
+        // 入库
+        CustomeApplication.db.saveUserMessage(new Date().getTime(),
+                1,
+                CustomeApplication.getInstance().getMyself().getID(),
+                msg);
+
+        //更新UI
+        dataList.add(bean.getMessageBean());
+        adapter.notifyDataSetChanged();
+        lvChat.setSelection(lvChat.getCount() - 1);
+
+        // 发送逻辑，以后改成异步逻辑，防止阻碍UI
+        final String content = msg;
+        ServiceResponse sr = new RPC() {
+            @Override
+            public ServiceResponse getResponse() throws Exception {
+                return CustomeApplication.getService().sendMessage(mGid, mUid, content);
+            }
+        }.Call();
+
+        // 清空文字
+        etReply.setText("");
     }
 
     //点击空白处，隐藏软键盘
