@@ -11,7 +11,9 @@ import android.widget.ListView;
 
 import net.dearcode.candy.R;
 import net.dearcode.candy.controller.base.BaseFragment;
+import net.dearcode.candy.controller.component.Contacts;
 import net.dearcode.candy.model.FriendListItem;
+import net.dearcode.candy.model.User;
 import net.dearcode.candy.selfview.adapter.FriendListAdpter;
 
 import java.util.ArrayList;
@@ -33,9 +35,16 @@ public class FragmentFriends extends BaseFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataList.add(new FriendListItem("Jobs", ""));
-        dataList.add(new FriendListItem("steven", ""));
-        dataList.add(new FriendListItem("Tim Jack", ""));
+//        dataList.add(new FriendListItem("Jobs", ""));
+//        dataList.add(new FriendListItem("steven", ""));
+//        dataList.add(new FriendListItem("Tim Jack", ""));
+
+        ArrayList<User> list = Contacts.getContacts();
+
+        int count = list.size();
+        for(int i=0;i<count;i++) {
+            dataList.add(list.get(i).getFriendListItem());
+        }
     }
 
     @Nullable

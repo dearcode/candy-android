@@ -42,12 +42,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.alibaba:fastjson:1.2.17'
     compile 'com.android.support:support-v4:23.4.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'com.google.code.gson:gson:2.4'
     compile(name: 'client', ext: 'aar')
-
+    compile files('libs/freejava-0.0.2.jar')
 }

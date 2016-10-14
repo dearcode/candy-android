@@ -1,5 +1,7 @@
 package net.dearcode.candy.model;
 
+import net.dearcode.candy.modelview.UserBean;
+
 /**
  * Created by lujinfeifly on 16/9/24.
  * 好友列表的单个数据
@@ -10,6 +12,8 @@ public class FriendListItem {
     private String mName = "";
     private String mPiny = "";
     private String mImg = "";
+
+    private UserBean user;
 
     public long getmUserID() {
         return mUserID;
@@ -26,5 +30,13 @@ public class FriendListItem {
     public FriendListItem(String name, String img) {
         this.mName = name;
         this.mImg = img;
+    }
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
     }
 }

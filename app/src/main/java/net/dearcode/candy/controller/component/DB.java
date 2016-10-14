@@ -189,4 +189,19 @@ public class DB {
     public void saveUserMessage(long id, long user, long from, String msg) {
         db.execSQL("insert into user_message(id, user, `from`, msg) values (?, ?, ?,?)", new Object[]{id, user, from, msg});
     }
+
+    public ArrayList<User> getFriends() {
+        ArrayList<User> msgs = new ArrayList<User>();
+        Cursor c = db.rawQuery("SELECT id, `from`, msg FROM user_message where user = ? order by id desc limit 100", new String[]{"" + id});
+        while (c.moveToNext()) {
+            Message msg = new Message();
+            msg.setId(c.getLong(0));
+            msg.setFrom(c.getLong(1));
+            msg.setMsg(c.getString(2));
+            msgs.add(msg);
+        }
+        c.close();
+        Collections.reverse(msgs);
+        return msgs;
+    }
 }

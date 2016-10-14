@@ -29,4 +29,9 @@ public class LocalPreferences {
         SharedPreferences settings = application.getSharedPreferences(PREFERFILE, Activity.MODE_PRIVATE);
         return settings.getString(prefsName, null);
     }
+
+    public boolean getBool(String prefsName) {
+        SharedPreferences settings = application.getSharedPreferences(PREFERFILE, Activity.MODE_PRIVATE);
+        return settings.getBoolean(prefsName, false);
+    }
 }

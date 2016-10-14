@@ -29,6 +29,8 @@ import net.dearcode.candy.util.SoundMeter;
 import java.io.File;
 import java.util.List;
 
+import deer.milu.freejava.basic.MTime;
+
 public class ChatMsgAdapter extends BaseAdapter {
 
 	private List<MessageBean> dataList;
@@ -157,7 +159,7 @@ public class ChatMsgAdapter extends BaseAdapter {
 //		viewHolder.tvUserName.setVisibility(View.VISIBLE);
 
 		//是否显示发送时间
-//		viewHolder.tvSendTime.setText(TimeUtil.getHumenTime(bean.getMessageDate()));
+		viewHolder.tvSendTime.setText(MTime.getHumenTime(bean.getTime()));
 		if (isShowTime(position)) {
 			viewHolder.tvSendTime.setVisibility(View.VISIBLE);
 		}
@@ -185,9 +187,9 @@ public class ChatMsgAdapter extends BaseAdapter {
 		//如果距离上一条消息3分钟，显示
 		MessageBean now = dataList.get(position);
 		MessageBean pre = dataList.get(position-1);
-//		if ((now.getDate()/1000) - (pre.getMessageDate()/1000) > (5 * 60)) {
-//			return true;
-//		}
+		if ((now.getTime()/1000) - (pre.getTime()/1000) > (5 * 60)) {
+			return true;
+		}
 		return false;
 	}
 
