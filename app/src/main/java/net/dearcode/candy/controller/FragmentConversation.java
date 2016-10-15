@@ -32,9 +32,7 @@ public class FragmentConversation extends BaseFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataList.add(new ConversationListItem("Jobs", "", "nsdhfuhvgbh sjodfnvfj safdva", "8-6"));
-        dataList.add(new ConversationListItem("steven", "", "nsdhfuhvgbh sjodfnvfj safdva", "7-6"));
-        dataList.add(new ConversationListItem("Tim Jack", "", "nsdhfuhvgbh sjodfnvfj safdva", "9-6"));
+        dataList = CustomeApplication.db.getChatList();
     }
 
     @Nullable
@@ -72,7 +70,7 @@ public class FragmentConversation extends BaseFragment implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getActivity(), ChatActivity.class);
         Bundle b = new Bundle();
-        b.putString("uid", "0");
+        b.putString("uid", dataList.get(position).getmUserId() + "");
         i.putExtras(b);
         startActivity(i);
     }

@@ -98,6 +98,6 @@ public class User {
     }
 
     public FriendListItem getFriendListItem() {
-        return new FriendListItem(getNickName(), "");
+        return new FriendListItem(ID, getNickName(), "");
     }
 }

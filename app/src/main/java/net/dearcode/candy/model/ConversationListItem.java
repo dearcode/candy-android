@@ -8,25 +8,25 @@ package net.dearcode.candy.model;
 public class ConversationListItem {
 
     private int mUnreadCount = 0;
-    private int mUserId = 0;
+    private long mUserId = 0;
     private String mUserName = "";
     private String mUserImg = "";
     private String mLastWord = "";
     private String mContent = "";
-    private String mDate = "";
+    private long mDate;
 
     public ConversationListItem() {
 
     }
 
-    public ConversationListItem(String userName, String userImg, String content, String date) {
+    public ConversationListItem(String userName, String userImg, String content, long date) {
         this.mUserImg = userImg;
         this.mUserName = userName;
         this.mContent = content;
         this.mDate = date;
     }
 
-    public String getmDate() {
+    public long getmDate() {
         return mDate;
     }
 
@@ -34,7 +34,7 @@ public class ConversationListItem {
         return mUnreadCount;
     }
 
-    public int getmUserId() {
+    public long getmUserId() {
         return mUserId;
     }
 
@@ -52,5 +52,34 @@ public class ConversationListItem {
 
     public String getmContent() {
         return mContent;
+    }
+
+
+    public void setmUnreadCount(int mUnreadCount) {
+        this.mUnreadCount = mUnreadCount;
+    }
+
+    public void setmUserId(long mUserId) {
+        this.mUserId = mUserId;
+    }
+
+    public void setmUserName(String mUserName) {
+        this.mUserName = mUserName;
+    }
+
+    public void setmUserImg(String mUserImg) {
+        this.mUserImg = mUserImg;
+    }
+
+    public void setmLastWord(String mLastWord) {
+        this.mLastWord = mLastWord;
+    }
+
+    public void setmContent(String mContent) {
+        this.mContent = mContent;
+    }
+
+    public void setmDate(long mDate) {
+        this.mDate = mDate;
     }
 }

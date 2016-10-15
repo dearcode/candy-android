@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import net.dearcode.candy.model.ConversationListItem;
 import net.dearcode.candy.model.Message;
 import net.dearcode.candy.model.Session;
 import net.dearcode.candy.model.User;
+import net.dearcode.candy.modelview.MessageBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -90,13 +92,9 @@ public class DB {
         db.execSQL("CREATE TABLE IF NOT EXISTS user_message(id INTEGER PRIMARY KEY, user integer, `from` integer, msg text)");
         db.execSQL("create index if not exists user_message_index on user_message(user)");
 
-        // 会话从这加载
-        db.execSQL("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY, is_group integer, last_time integer, msg text)");
+        // 会话从这加载 -- 即聊天列表
+        db.execSQL("CREATE TABLE IF NOT EXISTS session (id varchar(30) PRIMARY KEY, type integer, last_time integer, msg text)");
 
-//        db.execSQL("insert into user_message(id, user, `from`, msg) values (22222, 1, 1,'22222')");
-//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33333, 1, 1,'33333')");
-//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33334, 2, 1,'3334444443')");
-//        db.execSQL("insert into user_message(id, user, `from`, msg) values (33335, 2, 1,'33555555555555555533')");
     }
 
     public ArrayList<Session> loadSession() {
@@ -161,7 +159,13 @@ public class DB {
         db.execSQL("insert into system_message(id, event, relation, `group`, `from`, msg) values (?,?, ?, ?, ?,?)", new Object[]{id, event, relation, group, from, msg});
     }
 
+    /**
+     * 获取所有聊天内容
+     * @param id
+     * @return
+     */
     public ArrayList<Message> loadUserMessage(long id) {
+        Log.i("****************" , "aaaa" + id);
         ArrayList<Message> msgs = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT id, `from`, msg FROM user_message where user = ? order by id desc limit 100", new String[]{"" + id});
         while (c.moveToNext()) {
@@ -176,6 +180,11 @@ public class DB {
         return msgs;
     }
 
+    /**
+     * 获取对话的条数
+     * @param id
+     * @return
+     */
     public int getUserMessageCount(long id) {
         int ret = 0;
         Cursor c = db.rawQuery("SELECT count(1) FROM user_message where user = ? ", null);
@@ -186,22 +195,63 @@ public class DB {
         return ret;
     }
 
+    /**
+     * 保存个人对话信息
+     * @param id
+     * @param user
+     * @param from
+     * @param msg
+     */
     public void saveUserMessage(long id, long user, long from, String msg) {
         db.execSQL("insert into user_message(id, user, `from`, msg) values (?, ?, ?,?)", new Object[]{id, user, from, msg});
     }
 
+    /**
+     * 说话记录保存到对话列表
+     * @param message
+     */
+    public void saveChatList(MessageBean message) {
+        db.execSQL("replace into session(id, type, last_time, msg) values (?, ?, ?, ?)",
+                new Object[]{message.getUser().getUserId(), "0", message.getTime(), message.getContent()});
+    }
+
+    /**
+     * 获取好友列表
+     * @return
+     */
     public ArrayList<User> getFriends() {
-        ArrayList<User> msgs = new ArrayList<User>();
-        Cursor c = db.rawQuery("SELECT id, `from`, msg FROM user_message where user = ? order by id desc limit 100", new String[]{"" + id});
+        ArrayList<User> users = new ArrayList<User>();
+        Cursor c = db.rawQuery("SELECT id , name , nickname , avatar FROM user_info where id in (select id from friend)", new String[]{});
         while (c.moveToNext()) {
-            Message msg = new Message();
-            msg.setId(c.getLong(0));
-            msg.setFrom(c.getLong(1));
-            msg.setMsg(c.getString(2));
-            msgs.add(msg);
+            User user = new User();
+            user.setID(c.getLong(0));
+            user.setName(c.getString(1));
+            user.setNickName(c.getString(2));
+            users.add(user);
         }
         c.close();
-        Collections.reverse(msgs);
-        return msgs;
+        Collections.reverse(users);
+        return users;
+    }
+
+    public ArrayList<ConversationListItem> getChatList() {
+        ArrayList<ConversationListItem> chatList = new ArrayList<ConversationListItem>();
+        Cursor c = db.rawQuery("SELECT user_info.id , user_info.name , user_info.nickname , user_info.avatar,"
+                + " session.last_time, session.msg "
+                + " FROM session, user_info  order by session.last_time ", new String[]{});
+        while (c.moveToNext()) {
+            ConversationListItem item = new ConversationListItem();
+            item.setmContent(c.getString(5));
+            item.setmDate(c.getLong(4));
+            item.setmLastWord(c.getString(5));
+            item.setmUnreadCount(0);
+            item.setmUserId(c.getLong(0));
+            item.setmUserName(c.getString(1));
+
+            chatList.add(item);
+        }
+        c.close();
+        //Collections.reverse(users);
+        return chatList;
     }
 }

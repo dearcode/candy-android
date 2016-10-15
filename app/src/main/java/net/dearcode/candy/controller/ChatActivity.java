@@ -77,16 +77,15 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Bundle b = getIntent().getExtras();
-//        mIsGroup = b.getBoolean("isGroup");
-//        if(!mIsGroup) {
-//            mUid = b.getLong("uid");
-//        }else {
-//            mGid = b.getLong("gid");
-//        }
+        Bundle b = getIntent().getExtras();
+        mIsGroup = b.getBoolean("isGroup");
+        if(!mIsGroup) {
+            mUid = Long.parseLong(b.getString("uid"));
+        }else {
+            mGid = Long.parseLong(b.getString("gid"));
+        }
 
         mIsGroup = false;
-        mUid = 1;
 
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         setContentView(R.layout.layout_chat);
@@ -362,11 +361,14 @@ public class ChatActivity extends BaseActivity {
         bean.setId(new Date().getTime());
 
 
-        // 入库
+        // 入库, 个人聊天
         CustomeApplication.db.saveUserMessage(new Date().getTime(),
-                1,
+                mUid,
                 CustomeApplication.getInstance().getMyself().getID(),
                 msg);
+        // 入库，聊天列表
+        CustomeApplication.db.saveChatList(bean.getMessageBean());
+
 
         //更新UI
         dataList.add(bean.getMessageBean());

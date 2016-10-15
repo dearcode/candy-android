@@ -35,9 +35,6 @@ public class FragmentFriends extends BaseFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        dataList.add(new FriendListItem("Jobs", ""));
-//        dataList.add(new FriendListItem("steven", ""));
-//        dataList.add(new FriendListItem("Tim Jack", ""));
 
         ArrayList<User> list = Contacts.getContacts();
 
@@ -68,8 +65,6 @@ public class FragmentFriends extends BaseFragment implements
         lvChatList.setOnItemClickListener(this);
         lvChatList.setOnItemLongClickListener(this);
 
-        getFriendList();
-
         if(adapter == null) {
             adapter = new FriendListAdpter(getActivity(), dataList);
         }
@@ -82,7 +77,7 @@ public class FragmentFriends extends BaseFragment implements
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getActivity(), HumanActivity.class);
         Bundle b = new Bundle();
-        b.putString("uid", "0");
+        b.putString("uid", dataList.get(position).getmUserID() + "");
         i.putExtras(b);
         startActivity(i);
     }
@@ -90,34 +85,5 @@ public class FragmentFriends extends BaseFragment implements
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         return false;
-    }
-
-    public void getFriendList() {
-        FriendListItem[] friendListArray = new FriendListItem[] {
-                new FriendListItem("唐僧", ""),
-                new FriendListItem("猪师弟", ""),
-                new FriendListItem("阿呆", ""),
-                new FriendListItem("8899", ""),
-                new FriendListItem("孙悟空", ""),
-                new FriendListItem("阿三", ""),
-                new FriendListItem("张三", ""),
-                new FriendListItem("张二B", ""),
-                new FriendListItem("阿三", ""),
-                new FriendListItem("张三", ""),
-                new FriendListItem("张二B", ""),
-                new FriendListItem("阿三", ""),
-                new FriendListItem("张三", ""),
-                new FriendListItem("张二B", ""),
-                new FriendListItem("阿三", ""),
-                new FriendListItem("张三", ""),
-                new FriendListItem("张二B", ""),
-                new FriendListItem("李四", ""),
-                new FriendListItem("王小二", ""),
-                new FriendListItem("张三丰", ""),
-                new FriendListItem("郭靖", ""),
-                new FriendListItem("张无忌", ""),
-                new FriendListItem("黄小贤", "")};
-
-        //dataList = Arrays.asList(friendListArray);
     }
 }

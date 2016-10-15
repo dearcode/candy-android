@@ -27,7 +27,8 @@ public class FriendListItem {
         return mImg;
     }
 
-    public FriendListItem(String name, String img) {
+    public FriendListItem(long userId, String name, String img) {
+        this.mUserID = userId;
         this.mName = name;
         this.mImg = img;
     }

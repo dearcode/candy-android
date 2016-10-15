@@ -12,6 +12,8 @@ import net.dearcode.candy.model.ConversationListItem;
 
 import java.util.List;
 
+import deer.milu.freejava.basic.MTime;
+
 /**
  * Created by lujinfeifly on 16/9/26.
  */
@@ -72,7 +74,7 @@ public class ChatListAdapter extends BaseAdapter {
 
         public void setData(ConversationListItem bean) {
             tvUserName.setText(bean.getmUserName());
-            tvDate.setText(bean.getmDate());
+            tvDate.setText(MTime.getHumenTime(bean.getmDate()));
             tvContent.setText(bean.getmContent());
         }
     }

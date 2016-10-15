@@ -17,10 +17,14 @@ import net.dearcode.candy.controller.base.BaseActivity;
 public class HumanActivity extends BaseActivity {
 
     private Button btnToChat;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle b = getIntent().getExtras();
+        userId = Long.parseLong(b.getString("uid"));
 
         setContentView(R.layout.layout_human);
         initView();
@@ -32,9 +36,10 @@ public class HumanActivity extends BaseActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final long uid = userId;
                         Intent i = new Intent(HumanActivity.this, ChatActivity.class);
                         Bundle b = new Bundle();
-                        b.putString("uid", "0");
+                        b.putString("uid", uid + "");
                         i.putExtras(b);
                         startActivity(i);
                     }

@@ -30,6 +30,13 @@ public class LocalPreferences {
         return settings.getString(prefsName, null);
     }
 
+    public void saveBool(String prefsName, boolean data) {
+        SharedPreferences settings = application.getSharedPreferences(PREFERFILE, Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean(prefsName, data);
+        editor.commit();
+    }
+
     public boolean getBool(String prefsName) {
         SharedPreferences settings = application.getSharedPreferences(PREFERFILE, Activity.MODE_PRIVATE);
         return settings.getBoolean(prefsName, false);
