@@ -211,6 +211,7 @@ public class DB {
      * @param message
      */
     public void saveChatList(MessageBean message) {
+        Log.i("****************", "dddddd" + message.getUser().getUserId());
         db.execSQL("replace into session(id, type, last_time, msg) values (?, ?, ?, ?)",
                 new Object[]{message.getUser().getUserId(), "0", message.getTime(), message.getContent()});
     }
@@ -238,7 +239,7 @@ public class DB {
         ArrayList<ConversationListItem> chatList = new ArrayList<ConversationListItem>();
         Cursor c = db.rawQuery("SELECT user_info.id , user_info.name , user_info.nickname , user_info.avatar,"
                 + " session.last_time, session.msg "
-                + " FROM session, user_info  order by session.last_time ", new String[]{});
+                + " FROM session, user_info where session.id=user_info.id order by - session.last_time ", new String[]{});
         while (c.moveToNext()) {
             ConversationListItem item = new ConversationListItem();
             item.setmContent(c.getString(5));

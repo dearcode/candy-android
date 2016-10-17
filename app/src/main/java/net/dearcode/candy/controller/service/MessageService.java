@@ -234,6 +234,8 @@ public class MessageService extends Service {
             Log.e(Common.LOG_TAG, "service start candy client error:" + e.getMessage());
         }
         Log.e(Common.LOG_TAG, "service onCreate candy ok");
+
+        //client.login();
     }
 
     @Override

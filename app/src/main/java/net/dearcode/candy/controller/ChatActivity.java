@@ -26,6 +26,7 @@ import net.dearcode.candy.model.Message;
 import net.dearcode.candy.model.Relation;
 import net.dearcode.candy.model.ServiceResponse;
 import net.dearcode.candy.modelview.MessageBean;
+import net.dearcode.candy.modelview.UserBean;
 import net.dearcode.candy.selfview.PullToRefreshListView;
 import net.dearcode.candy.selfview.adapter.ChatFaceAdapter;
 import net.dearcode.candy.selfview.adapter.ChatMsgAdapter;
@@ -355,11 +356,21 @@ public class ChatActivity extends BaseActivity {
         msg = m.replaceAll("v");
 
         // create bean
-        Message bean = new Message();
-        bean.setMsg(msg);
-        bean.setFrom(CustomeApplication.getInstance().getMyself().getID());
-        bean.setId(new Date().getTime());
+//        Message bean = new Message();
+//        bean.setMsg(msg);
+//        bean.setFrom(CustomeApplication.getInstance().getMyself().getID());
+//        bean.setId(new Date().getTime());
 
+        MessageBean message = new MessageBean();
+        message.setType(1);
+        message.setIsread(false);
+        message.setContent(msg);
+        message.setChatid("" + mUid);
+        message.setId(new Date().getTime());
+        message.setTime(new Date().getTime());
+        UserBean user = new UserBean();
+        user.setUserId(mUid);
+        message.setUser(user);
 
         // 入库, 个人聊天
         CustomeApplication.db.saveUserMessage(new Date().getTime(),
@@ -367,11 +378,11 @@ public class ChatActivity extends BaseActivity {
                 CustomeApplication.getInstance().getMyself().getID(),
                 msg);
         // 入库，聊天列表
-        CustomeApplication.db.saveChatList(bean.getMessageBean());
+        CustomeApplication.db.saveChatList(message);
 
 
         //更新UI
-        dataList.add(bean.getMessageBean());
+        dataList.add(message);
         adapter.notifyDataSetChanged();
         lvChat.setSelection(lvChat.getCount() - 1);
 

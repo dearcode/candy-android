@@ -66,18 +66,20 @@ public class CustomeApplication extends Application {
             mMyself.setPassword(split[1]);
             mMyself.setID(Long.parseLong(split[2]));
             isLogin = true;
-
-            try {
-                CustomeApplication.getService().connect();
-                ServiceResponse sr = CustomeApplication.getService().login(mMyself.getName(), mMyself.getPassword());
-                if (sr.hasError()) {
-                    //Snackbar.make(view, Errors.ParseError(getApplicationContext(),sr.getError()), Snackbar.LENGTH_LONG).show();
-                    Log.i("@@@@@@@@@", sr.getError());
-                    return;
-                }
-            }catch(Exception e) {
-
-            }
+//            Log.i("********login1", mMyself.getName() + "," + mMyself.getPassword());
+//            try {
+//                binder.getCandy().connect();
+//                Log.i("********login2", mMyself.getName() + "," + mMyself.getPassword());
+//                ServiceResponse sr = binder.getCandy().login(mMyself.getName(), mMyself.getPassword());
+//                Log.i("********login", mMyself.getName() + "," + mMyself.getPassword());
+//                if (sr.hasError()) {
+//                    //Snackbar.make(view, Errors.ParseError(getApplicationContext(),sr.getError()), Snackbar.LENGTH_LONG).show();
+//                    Log.i("@@@@@@@@@", sr.getError());
+//                    return;
+//                }
+//            }catch(Exception e) {
+//                Log.i("@@@@@@@@@", e.getMessage());
+//            }
         }
     }
 
