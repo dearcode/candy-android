@@ -20,17 +20,26 @@ public class ServiceBinder implements ServiceConnection {
     private CandyMessage candy = null;
     private Context ctx;
 
-    public ServiceBinder(Context ctx) {
+    private String account;
+    private String passwd;
+
+    public ServiceBinder(Context ctx, String account, String passwd) {
         this.ctx = ctx;
-        Intent i = new Intent(ctx, MessageService.class);
-        if (!ctx.bindService(i, this, Context.BIND_AUTO_CREATE)) {
-            Log.e(Common.LOG_TAG, "bindService state");
-        }
+        this.account = account;
+        this.passwd = passwd;
+         // 这里改成不绑定
+//        if (!ctx.bindService(i, this, Context.BIND_AUTO_CREATE)) {
+//            Log.e(Common.LOG_TAG, "bindService state");
+//        }
     }
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
         candy = CandyMessage.Stub.asInterface(iBinder);
+        Intent i = new Intent(ctx, MessageService.class);
+        i.putExtra("account", account);
+        i.putExtra("passwd", passwd);
+        ctx.startService(i);
     }
 
 

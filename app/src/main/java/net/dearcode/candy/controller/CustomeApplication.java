@@ -2,6 +2,7 @@ package net.dearcode.candy.controller;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.forlong401.log.transaction.log.manager.LogManager;
@@ -10,6 +11,7 @@ import net.dearcode.candy.CandyMessage;
 import net.dearcode.candy.controller.component.DB;
 import net.dearcode.candy.controller.component.ServiceBinder;
 import net.dearcode.candy.controller.component.UserInfo;
+import net.dearcode.candy.controller.service.MessageService;
 import net.dearcode.candy.localdb.localpreferences.LocalPreferences;
 import net.dearcode.candy.model.ServiceResponse;
 import net.dearcode.candy.model.User;
@@ -51,7 +53,7 @@ public class CustomeApplication extends Application {
         super.onCreate();
 
         LogManager.getManager(this).registerCrashHandler();
-        binder = new ServiceBinder(this);
+
         db = new DB(this);
 
         localPreferences = new LocalPreferences(this);
@@ -81,6 +83,12 @@ public class CustomeApplication extends Application {
 //                Log.i("@@@@@@@@@", e.getMessage());
 //            }
         }
+        Intent i = new Intent(this, MessageService.class);
+        i.putExtra("account", mMyself.getName());
+        i.putExtra("passwd", mMyself.getPassword());
+        this.startService(i);
+        //binder = new ServiceBinder(this, mMyself.getName(), mMyself.getPassword());
+
     }
 
     public User getMyself() {

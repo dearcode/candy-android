@@ -204,28 +204,32 @@ public class MessageService extends Service {
         }
     };
 
-    @Override
-    public IBinder onBind(Intent i) {
-        Log.e(Common.LOG_TAG, "============> TestService.onBind");
-        return serviceBinder;
-    }
+//    @Override
+//    public IBinder onBind(Intent i) {
+//        Log.e(Common.LOG_TAG, "============> TestService.onBind");
+//        return serviceBinder;
+//    }
+//
+//    @Override
+//    public boolean onUnbind(Intent i) {
+//        Log.e(Common.LOG_TAG, "============> TestService.onUnbind");
+//        return false;
+//    }
+//
+//    @Override
+//    public void onRebind(Intent i) {
+//        Log.e(Common.LOG_TAG, "============> TestService.onRebind");
+//    }
 
-    @Override
-    public boolean onUnbind(Intent i) {
-        Log.e(Common.LOG_TAG, "============> TestService.onUnbind");
-        return false;
-    }
+    private CandyClient client;
+    private String account;
+    private String passwd;
 
-    @Override
-    public void onRebind(Intent i) {
-        Log.e(Common.LOG_TAG, "============> TestService.onRebind");
-    }
-
-    CandyClient client;
+    private CandyMessage candy;
 
     @Override
     public void onCreate() {
-        Log.e(Common.LOG_TAG, "service onCreate begin");
+        Log.i(Common.LOG_TAG, "service onCreate begin");
         msgClient = new MessageClient();
         try {
             client = newCandyClient("candy.dearcode.net:9000", msgClient);
@@ -233,14 +237,26 @@ public class MessageService extends Service {
         } catch (Exception e) {
             Log.e(Common.LOG_TAG, "service start candy client error:" + e.getMessage());
         }
-        Log.e(Common.LOG_TAG, "service onCreate candy ok");
-
-        //client.login();
+        candy = CandyMessage.Stub.asInterface(serviceBinder);
+        Log.i(Common.LOG_TAG, "service onCreate candy ok" + client);
     }
 
     @Override
-    public void onStart(Intent intent, int startId) {
-        Log.e(Common.LOG_TAG, "============> TestService.onStart");
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        account = intent.getStringExtra("account");
+        passwd = intent.getStringExtra("passwd");
+
+        Log.i(Common.LOG_TAG, "onStartCommand:" + account + "," + passwd);
+
+        try {
+            candy.connect();
+            candy.login(account, passwd);
+        }catch(Exception ex) {
+            Log.e(Common.LOG_TAG, "login error" + ex.getMessage());
+        }
+        Log.i(Common.LOG_TAG, "login ok");
+
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
