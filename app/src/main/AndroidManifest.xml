@@ -40,6 +40,12 @@
 
         <service android:name=".controller.service.MessageService" >
         </service>
+
+        <receiver android:name=".receiver.MessageReceiver">
+            <intent-filter>
+                <action android:name="net.dearcode.candy.message"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,14 +20,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.dearcode.candy.R;
+import net.dearcode.candy.controller.CustomeApplication;
 import net.dearcode.candy.controller.base.BaseActivity;
 import net.dearcode.candy.model.Message;
 import net.dearcode.candy.modelview.MessageBean;
 import net.dearcode.candy.selfview.ChatContentView;
+import net.dearcode.candy.util.ResourceUtil;
 import net.dearcode.candy.util.SoundMeter;
 
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import deer.milu.freejava.basic.MTime;
@@ -86,12 +90,11 @@ public class ChatMsgAdapter extends BaseAdapter {
 //		}
 
 		//根据from区分左边还是右边 true 左边  false 右边
-		boolean isOther = (bean.getUser().getUserId() == 1);
-
+		boolean isMe = bean.isMeSend();
 		ViewHolder viewHolder = null;
-		if (convertView == null ) {
+		if (convertView == null || (viewHolder = (ViewHolder)convertView.getTag()).isMe != bean.isMeSend()) {
 			viewHolder = new ViewHolder();
-			if (isOther) {
+			if (!isMe) {
 				convertView = LayoutInflater.from(context).inflate(R.layout.layout_chat_adapter_msg_left, null);
 			} else {
 				convertView = LayoutInflater.from(context).inflate(R.layout.layout_chat_adapter_msg_right, null);
@@ -102,12 +105,13 @@ public class ChatMsgAdapter extends BaseAdapter {
 			viewHolder.tvSendTime.setTextSize(10);
 			viewHolder.llChatEtc = convertView.findViewById(R.id.rl_chatEtc);
 			viewHolder.ivUserHeader = (ImageView)convertView.findViewById(R.id.iv_userhead);
+			viewHolder.ivUserHeader.setImageResource(ResourceUtil.getDrawableId("pic" + bean.getUser().getUserId()%8));
 			viewHolder.ivGameIcon = (ImageView)convertView.findViewById(R.id.iv_gameIcon);
 			viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tv_username);
-			viewHolder.isOther = isOther;
+			viewHolder.isMe = isMe;
 			viewHolder.vContent = (ChatContentView)convertView.findViewById(R.id.v_chat_content);
 			viewHolder.vContent.setProperties(context, voiceUtil, handler, dataList, this,
-					jidFrom, parent, roomManager, ownerId, isOther);
+					jidFrom, parent, roomManager, ownerId, isMe);
 
 			convertView.setTag(viewHolder);
 		} else {
@@ -120,20 +124,6 @@ public class ChatMsgAdapter extends BaseAdapter {
 		//提前隐藏的
 		viewHolder.ivGameIcon.setVisibility(View.GONE);
 		viewHolder.tvUserName.setVisibility(View.GONE);
-		//通知类的消息，到此为止
-//		if (XmppValue.Msg_Type_Notice == bean.getMessageType()) {
-//			viewHolder.llChatEtc.setVisibility(View.GONE);
-//			viewHolder.tvSendTime.setVisibility(View.VISIBLE);
-//			viewHolder.tvSendTime.setText(TimeUtil.getHumenTime(bean.getMessageDate()) + "  " + bean.getMessageContent());
-//			return convertView;
-//		}
-//		//添加好友消息
-//		if(XmppValue.Msg_Type_Add_Friend == bean.getMessageType()){
-//			viewHolder.llChatEtc.setVisibility(View.GONE);
-//			viewHolder.tvSendTime.setVisibility(View.VISIBLE);
-//			viewHolder.tvSendTime.setText("您已成功添加"+userBean.getNickName()+"为好友，快打个招呼吧~");
-//			return convertView;
-//		}
 
 		viewHolder.llChatEtc.setVisibility(View.VISIBLE);
 		viewHolder.tvSendTime.setVisibility(View.GONE);
@@ -149,7 +139,7 @@ public class ChatMsgAdapter extends BaseAdapter {
 //			ImageLoaderLocal.setImageView(context, gidleRequest, userBean.getUserHead(),
 //					R.drawable.default_head, viewHolder.ivUserHeader, 0);
 //		}
-		viewHolder.ivUserHeader.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
+//		viewHolder.ivUserHeader.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
 		//如果是左面的，并且是天龙里面的，则显示游戏图标
 //		if (beFrom && isShowGameIcon(bean.getMessageFrom())) {
 //			viewHolder.ivGameIcon.setVisibility(View.VISIBLE);
@@ -203,7 +193,7 @@ public class ChatMsgAdapter extends BaseAdapter {
 		public ImageView ivFailed;
 		public ChatContentView vContent;
 
-		public boolean isOther = true;
+		public boolean isMe = true;
 	}
 
 	//群主ID

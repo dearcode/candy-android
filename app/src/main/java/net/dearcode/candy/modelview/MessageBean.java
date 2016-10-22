@@ -1,5 +1,7 @@
 package net.dearcode.candy.modelview;
 
+import net.dearcode.candy.controller.CustomeApplication;
+
 /**
  * Created by lujinfei on 2016/10/14.
  * 用于界面流通的基本数据----消息
@@ -12,6 +14,7 @@ public class MessageBean {
 //    private int userid;      // 发言人
     private int type;        // 聊天类型
     private long time;       // 发言时间
+    private boolean isMeSend = false;  // 是否我发送
 
     private boolean isread;  // 标识次消息未读，主要在于语音是否播放
     private UserBean user;   //发言人
@@ -68,7 +71,12 @@ public class MessageBean {
         this.isread = isread;
     }
 
+    public boolean isMeSend() {
+        return isMeSend;
+    }
+
     public void setUser(UserBean user) {
         this.user = user;
+        this.isMeSend = (user.getUserId() == CustomeApplication.getInstance().getMyself().getID());
     }
 }

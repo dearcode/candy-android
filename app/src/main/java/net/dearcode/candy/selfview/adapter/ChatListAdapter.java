@@ -1,6 +1,7 @@
 package net.dearcode.candy.selfview.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import net.dearcode.candy.R;
 import net.dearcode.candy.model.ConversationListItem;
+import net.dearcode.candy.util.ResourceUtil;
 
 import java.util.List;
 
@@ -76,6 +78,8 @@ public class ChatListAdapter extends BaseAdapter {
             tvUserName.setText(bean.getmUserName());
             tvDate.setText(MTime.getHumenTime(bean.getmDate()));
             tvContent.setText(bean.getmContent());
+
+            ivUserHead.setImageResource(ResourceUtil.getDrawableId("pic" + bean.getmUserId()%8));
         }
     }
 }

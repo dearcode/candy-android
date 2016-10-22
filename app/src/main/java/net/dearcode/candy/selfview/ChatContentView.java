@@ -34,7 +34,7 @@ public class ChatContentView extends LinearLayout {
 	private ViewGroup vgParent;
 	private String roomManager;//群主和群管的ID之和
 	private String ownerId;//群主ID
-	private boolean isOther; // 是否是别人说的
+	private boolean isMe; // 是否是别人说的
 
 	public ChatContentView(Context context) {
 		super(context);
@@ -53,7 +53,7 @@ public class ChatContentView extends LinearLayout {
 
 	public void setProperties(Activity activity, SoundMeter voiceUtil,
 							  Handler handler, List<MessageBean> dataList, ChatMsgAdapter adapter,
-							  String jidFrom, ViewGroup vgParent, String roomManager, String ownerId, boolean isOther) {
+							  String jidFrom, ViewGroup vgParent, String roomManager, String ownerId, boolean isMe) {
 		this.activity = activity;
 		this.voiceUtil = voiceUtil;
 		this.handler = handler;
@@ -63,6 +63,7 @@ public class ChatContentView extends LinearLayout {
 		this.vgParent = vgParent;
 		this.roomManager = roomManager;
 		this.ownerId = ownerId;
+		this.isMe = isMe;
 	}
 
 	/**
@@ -106,7 +107,7 @@ public class ChatContentView extends LinearLayout {
 		map.put(2, "复制");
 
 
-		if(isOther){
+		if(!isMe){
 			tvText.setTextColor(getResources().getColor(R.color.new_color_deep));
 			tvText.setBackgroundResource(R.drawable.chat_from_bg);
 		}else{

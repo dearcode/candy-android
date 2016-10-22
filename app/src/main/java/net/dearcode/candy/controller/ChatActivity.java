@@ -1,6 +1,9 @@
 package net.dearcode.candy.controller;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 import net.dearcode.candy.R;
 import net.dearcode.candy.controller.base.BaseActivity;
 import net.dearcode.candy.controller.component.RPC;
+import net.dearcode.candy.controller.service.MessageService;
 import net.dearcode.candy.model.Event;
 import net.dearcode.candy.model.Message;
 import net.dearcode.candy.model.Relation;
@@ -74,6 +78,8 @@ public class ChatActivity extends BaseActivity {
     private int unReadNum = 0;
     private int lvPosition = 0;
 
+    private MyBrocastReciver myBrocastReciver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +100,12 @@ public class ChatActivity extends BaseActivity {
 
         initView();
         initData(true);
+
+        // 注册
+        myBrocastReciver = new MyBrocastReciver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("net.dearcode.candy.message");
+        registerReceiver(myBrocastReciver,filter);
     }
 
     private void initView() {
@@ -322,11 +334,8 @@ public class ChatActivity extends BaseActivity {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btn_send: // 普通发送按钮
-
                 sendText();
                 break;
-
-
             case R.id.iv_face:
                 showFace();
                 break;
@@ -355,12 +364,6 @@ public class ChatActivity extends BaseActivity {
         Matcher m = p.matcher(msg);
         msg = m.replaceAll("v");
 
-        // create bean
-//        Message bean = new Message();
-//        bean.setMsg(msg);
-//        bean.setFrom(CustomeApplication.getInstance().getMyself().getID());
-//        bean.setId(new Date().getTime());
-
         MessageBean message = new MessageBean();
         message.setType(1);
         message.setIsread(false);
@@ -369,7 +372,7 @@ public class ChatActivity extends BaseActivity {
         message.setId(new Date().getTime());
         message.setTime(new Date().getTime());
         UserBean user = new UserBean();
-        user.setUserId(mUid);
+        user.setUserId(CustomeApplication.getInstance().getMyself().getID());
         message.setUser(user);
 
         // 入库, 个人聊天
@@ -387,13 +390,19 @@ public class ChatActivity extends BaseActivity {
         lvChat.setSelection(lvChat.getCount() - 1);
 
         // 发送逻辑，以后改成异步逻辑，防止阻碍UI
-        final String content = msg;
-        ServiceResponse sr = new RPC() {
-            @Override
-            public ServiceResponse getResponse() throws Exception {
-                return CustomeApplication.getService().sendMessage(mGid, mUid, content);
-            }
-        }.Call();
+//        final String content = msg;
+//        ServiceResponse sr = new RPC() {
+//            @Override
+//            public ServiceResponse getResponse() throws Exception {
+//                return CustomeApplication.getService().sendMessage(mGid, mUid, content);
+//            }
+//        }.Call();
+
+        Intent i = new Intent(this, MessageService.class);
+        i.putExtra("type", "2");
+        i.putExtra("uid", mUid + "");
+        i.putExtra("msg", msg);
+        this.startService(i);
 
         // 清空文字
         etReply.setText("");
@@ -558,6 +567,33 @@ public class ChatActivity extends BaseActivity {
 
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(myBrocastReciver);
+        super.onStop();
+    }
+
+    private class MyBrocastReciver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle b = intent.getExtras();
+            if(b == null) {
+                return ;
+            }
+            Message m = b.getParcelable("message");
+            if(m == null) {
+                return;
+            }
+            Log.i(Common.LOG_TAG, m.getFrom() + "," + m.getMsg()+"," + m.getTo());
+            if(m.getFrom() == mUid) { // 属于这个
+                MessageBean bean = m.getMessageBean();
+                dataList.add(bean);
+                adapter.notifyDataSetChanged();
+                lvChat.setSelection(lvChat.getCount() - 1);
+            }
         }
     }
 }

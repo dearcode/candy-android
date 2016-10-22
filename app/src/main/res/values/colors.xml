@@ -22,4 +22,5 @@
     <color name="graytext">#767777</color>
     <color name="chat_send_time">#aeafaf</color>
     <color name="chat_nickname">#aaaaaa</color>
+    <color name="color_bg">#f4f4f4</color>
 </resources>

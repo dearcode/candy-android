@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import net.dearcode.candy.R;
 import net.dearcode.candy.model.FriendListItem;
+import net.dearcode.candy.util.ResourceUtil;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class FriendListAdpter extends BaseAdapter {
 
         public void setData(FriendListItem bean) {
             tvUserName.setText(bean.getmName());
+            ivUserHead.setImageResource(ResourceUtil.getDrawableId("pic" + bean.getmUserID()%8));
         }
     }
 }
